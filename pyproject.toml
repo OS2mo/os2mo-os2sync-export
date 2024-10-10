@@ -20,7 +20,7 @@ prometheus-fastapi-instrumentator = "^7.0.0"
 ra-utils = {extras = ["prometheus-client"], version = "^1.14.0"}
 raclients = "^3.3.5"
 requests = "^2.32.3"
-uvicorn = "^0.30.6"
+uvicorn = "^0.31.1"
 os2mo-data-import = "^6.2.0"
 fastapi = "0.115.0"
 websockets = "^13.1" # for ariadne
