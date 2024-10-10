@@ -228,7 +228,7 @@ async def sync_mo_user_to_fk_org(
     fk_org_users, it_users = await read_fk_users_from_person(
         graphql_client=graphql_client,
         uuid=uuid,
-        it_user_keys=settings.uuid_from_it_systems,
+        it_user_keys=settings.it_system_user_keys,
     )
     logger.info(
         "Found the following itusers",

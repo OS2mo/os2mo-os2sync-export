@@ -72,6 +72,9 @@ class Settings(BaseSettings):  # type: ignore
     # Use only when it-users exists in mo with the new format, eg:
     # AD-accounts having samaccountname in user_key, ObjectGUID as external_id and addresses and engagements attached to the it-user.
     new: bool = False
+    # Sync it-accounts from itsystems with these user_keys:
+    # Only relevant when new=True
+    it_system_user_keys: list[str] = ["Active Directory"]
 
     class Config:
         frozen = False
