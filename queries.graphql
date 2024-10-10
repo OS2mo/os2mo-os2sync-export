@@ -59,7 +59,7 @@ query read_orgunit($uuid: UUID!) {
         name
         parent {
           uuid
-          itusers(filter: { user_keys: "FK-org uuid" }) {
+          itusers(filter: { user_keys: "FK-ORG-UUID" }) {
             user_key
           }
         }
@@ -83,7 +83,7 @@ query read_orgunit($uuid: UUID!) {
           }
           name
         }
-        itusers(filter: { user_keys: "FK-org uuid" }) {
+        itusers(filter: { user_keys: "FK-ORG-UUID" }) {
           user_key
         }
         managers {
