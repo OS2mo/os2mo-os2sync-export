@@ -1,6 +1,21 @@
 # SPDX-FileCopyrightText: 2019-2020 Magenta ApS
 # SPDX-License-Identifier: MPL-2.0
 services:
+  init:
+    image: magentaaps/os2mo-init:2
+    environment:
+      # Keycloak
+      AUTH_SERVER: "http://keycloak:8080/auth"
+      # OS2mo
+      MO_URL: "http://mo:5000"
+      CLIENT_ID: "dipex"
+      CLIENT_SECRET: "603f1c82-d012-4d04-9382-dbe659c533fb"
+    volumes:
+      - type: bind
+        source: ./init.config.yml
+        target: /config/config.yml
+        read_only: true
+
   os2sync_export:
     build:
       context: .
@@ -11,9 +26,8 @@ services:
       - 127.0.0.1:8000:8000/tcp
     volumes:
       - ./os2sync_export:/app/os2sync_export
-    networks:
-      - os2mo_default
 
 networks:
-  os2mo_default:
+  default:
     external: true
+    name: os2mo_default

@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: Magenta ApS <https://magenta.dk>
+# SPDX-License-Identifier: MPL-2.0
+---
+root_organisation:
+  facets:
+  org_unit_address_type:
+    Contact:
+      title: "Henvendelsessted"
+      scope: "DAR"
+    Location:
+      title: "Lokation"
+      scope: "DAR"
+
+it_systems:
+  "Active Directory": "Active Directory"
+  FK-ORG-UUID: "FK-org uuid"
