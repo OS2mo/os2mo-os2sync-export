@@ -155,7 +155,7 @@ class GraphQLClient(AsyncBaseClient):
               name
               parent {
                 uuid
-                itusers(filter: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}) {
+                itusers(filter: {itsystem: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}}) {
                   user_key
                 }
               }
@@ -179,7 +179,7 @@ class GraphQLClient(AsyncBaseClient):
                 }
                 name
               }
-              itusers(filter: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}) {
+              itusers(filter: {itsystem: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}}) {
                 user_key
               }
               managers {
@@ -225,7 +225,7 @@ class GraphQLClient(AsyncBaseClient):
               name
               parent {
                 uuid
-                itusers(filter: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}) {
+                itusers(filter: {itsystem: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}}) {
                   user_key
                 }
               }
@@ -249,7 +249,7 @@ class GraphQLClient(AsyncBaseClient):
                 }
                 name
               }
-              itusers(filter: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}) {
+              itusers(filter: {itsystem: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}}) {
                 user_key
               }
               managers {
