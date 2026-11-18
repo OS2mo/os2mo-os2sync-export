@@ -16,7 +16,7 @@ fragment UnitFields on OrganisationUnit {
   name
   parent {
     uuid
-    itusers(filter: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}) {
+    itusers(filter: {itsystem: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}}) {
       user_key
     }
   }
@@ -40,7 +40,7 @@ fragment UnitFields on OrganisationUnit {
     }
     name
   }
-  itusers(filter: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}) {
+  itusers(filter: {itsystem: {user_keys: ["FK-ORG-UUID", "FK-ORG UUID"]}}) {
     user_key
   }
   managers {
