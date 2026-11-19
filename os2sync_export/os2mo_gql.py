@@ -358,7 +358,11 @@ async def sync_mo_user_to_fk_org(
         fk_it_uuid = one(fk_it.objects).uuid
     except ValueError:
         raise ITSystemError
-    if len(it_users) == 1 and len(fk_org_users) == 0:
+    if (
+        settings.check_existing_fk_user
+        and len(it_users) == 1
+        and len(fk_org_users) == 0
+    ):
         try:
             current = await os2sync_client.os2sync_get_user(uuid=uuid)
         except KeyError:

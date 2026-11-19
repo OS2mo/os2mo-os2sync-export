@@ -86,6 +86,10 @@ class Settings(BaseSettings):  # type: ignore
     # Only relevant when new=True
     it_system_user_keys: list[str] = ["Active Directory"]
 
+    # Checks if the user exists in fk-org with the MO person uuid to
+    # use that. Should be used when migrating to new=True
+    check_existing_fk_user: bool = False
+
     class Config:
         frozen = False
         env_nested_delimiter = "__"
