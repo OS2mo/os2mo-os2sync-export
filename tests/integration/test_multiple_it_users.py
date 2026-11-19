@@ -224,19 +224,23 @@ async def test_two_ad_one_fk(
 
 
 @pytest.mark.integration_test
+@pytest.mark.parametrize("check_existing_fk_user", (True, False))
 async def test_one_ad_zero_fk(
     graphql_client: GraphQLClient,
     create_person,
     create_engagements,
     create_AD_itsystem,
     create_FK_itsystem,
-    mock_settings,
+    set_settings,
+    check_existing_fk_user,
 ) -> None:
     # Test lookup to fk-org
+    # Lookup only happens if check_existing_fk_user is enabled
     # Arrange
     adguid = uuid4()
     os2sync_mock = AsyncMock()
     person_uuid = create_person.uuid
+    settings = set_settings(check_existing_fk_user=check_existing_fk_user)
     os2sync_mock.os2sync_get_user.return_value = {
         "Uuid": person_uuid,
         "UserId": "BSG",
@@ -262,7 +266,7 @@ async def test_one_ad_zero_fk(
     await sync_mo_user_to_fk_org(
         uuid=person_uuid,
         graphql_client=graphql_client,
-        settings=mock_settings,
+        settings=settings,
         os2sync_client=os2sync_mock,
     )
     # Assert
@@ -272,7 +276,7 @@ async def test_one_ad_zero_fk(
     expected = [
         call(
             User(
-                Uuid=person_uuid,
+                Uuid=person_uuid if check_existing_fk_user else adguid,
                 ShortKey=None,
                 UserId="AD-username 1",
                 Person=Person(Name="Brian Graversen", Cpr=None),
@@ -308,7 +312,10 @@ async def test_one_ad_zero_fk(
     )
     fk_org_it_users = one(it_accounts.objects).current.fk_org_uuids  # type: ignore
     assert one(fk_org_it_users).user_key == str(adguid)
-    assert one(fk_org_it_users).external_id == str(person_uuid)
+    if check_existing_fk_user:
+        assert one(fk_org_it_users).external_id == str(person_uuid)
+    else:
+        assert one(fk_org_it_users).external_id == str(adguid)
 
 
 @pytest.mark.integration_test
@@ -398,13 +405,14 @@ async def test_one_ad_zero_fk_user_not_active(
     create_engagements,
     create_AD_itsystem,
     create_FK_itsystem,
-    mock_settings,
+    set_settings,
 ) -> None:
     # Test lookup to fk-org when the user isn't in fk-org yet
     # Arrange
     adguid = uuid4()
     os2sync_mock = AsyncMock()
     person_uuid = create_person.uuid
+    settings = set_settings(check_existing_fk_user=True)
     os2sync_mock.os2sync_get_user.return_value = {
         "Uuid": person_uuid,
         "UserId": "BSG",
@@ -429,7 +437,7 @@ async def test_one_ad_zero_fk_user_not_active(
     await sync_mo_user_to_fk_org(
         uuid=person_uuid,
         graphql_client=graphql_client,
-        settings=mock_settings,
+        settings=settings,
         os2sync_client=os2sync_mock,
     )
     # Assert
@@ -485,13 +493,14 @@ async def test_one_ad_zero_fk_dry_run(
     create_engagements,
     create_AD_itsystem,
     create_FK_itsystem,
-    mock_settings,
+    set_settings,
 ) -> None:
     # Test lookup to fk-org
     # Arrange
     adguid = uuid4()
     os2sync_mock = AsyncMock()
     person_uuid = create_person.uuid
+    settings = set_settings(check_existing_fk_user=True)
     os2sync_mock.os2sync_get_user.return_value = User(
         Uuid=person_uuid,
         UserId="BSG",
@@ -516,7 +525,7 @@ async def test_one_ad_zero_fk_dry_run(
     await sync_mo_user_to_fk_org(
         uuid=person_uuid,
         graphql_client=graphql_client,
-        settings=mock_settings,
+        settings=settings,
         os2sync_client=os2sync_mock,
         dry_run=True,
     )
