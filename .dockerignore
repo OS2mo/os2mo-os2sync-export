@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: Magenta ApS
+# SPDX-License-Identifier: MPL-2.0
+.git
+.gitlab
+.vscode
+.reuse
+.venv
+.hypothesis
+.mypy_cache
+.pytest_cache
+.ruff_cache
+**/__pycache__
+**/*.pyc
+**.egg-info
+build
+dist
+.coverage
+docker-compose.yaml
+docker.env

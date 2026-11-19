@@ -19,6 +19,8 @@ services:
   os2sync_export:
     build:
       context: .
+      # Full dependency set, needed for `docker compose run ... pytest`.
+      target: dev
     env_file:
       - docker.env
     command: ["uvicorn", "--factory", "os2sync_export.main:create_app", "--host", "0.0.0.0", "--reload"]
