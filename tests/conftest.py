@@ -51,6 +51,7 @@ FULL_VALIDITY = ValidityInput(from_=None, to=None)  # type: ignore[call-arg]
 
 @pytest.fixture
 async def app(monkeypatch: MonkeyPatch) -> FastAPI:
+    monkeypatch.setenv("it_system_user_keys", '["AD"]')
     app = create_app()
     return app
 
@@ -84,6 +85,7 @@ def set_settings() -> Generator[Callable[..., Settings], None, None]:
         settings = Settings(
             *args,
             municipality=municipality,
+            it_system_user_keys=["AD"],
             fastramqpi=FastRAMQPISettings(
                 amqp=AMQPConnectionSettings(url=amqp_url),  # type: ignore
                 client_id=client_id,
@@ -247,7 +249,10 @@ async def create_AD_itsystem(graphql_client: GraphQLClient) -> UUID:
         await graphql_client.testing__create_itsystem(
             input=ITSystemCreateInput(
                 name="Active Directory",
-                user_key="Active Directory",
+                # In most installations name and user_key is the same.
+                # We chose a different user_key here to ensure they are not mixed up
+                # for the cases where they differ.
+                user_key="AD",
                 validity=FULL_VALIDITY,  # type: ignore[arg-type]
             )
         )

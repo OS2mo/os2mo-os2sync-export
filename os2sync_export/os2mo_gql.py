@@ -263,7 +263,7 @@ async def find_past_account_uuid(
     person_uuid: UUID,
     it: ReadUserITAccountsEmployeesObjectsCurrentItusers,
     current_fk_uuids: set[UUID],
-    user_key_it_system_names: list[str],
+    it_system_user_keys: list[str],
 ) -> UUID | None:
     """Check if user has had an fk-org account in the past for a different AD-account with the same SamAccountName"""
 
@@ -272,7 +272,7 @@ async def find_past_account_uuid(
         filter=ITUserFilter(
             employee=EmployeeFilter(uuids=[person_uuid]),  # type: ignore[call-arg]
             user_keys=[it.user_key],
-            itsystem=ITSystemFilter(user_keys=user_key_it_system_names),  # type: ignore[call-arg]
+            itsystem=ITSystemFilter(user_keys=it_system_user_keys),  # type: ignore[call-arg]
             from_date=None,
             to_date=None,
         ),
@@ -409,7 +409,7 @@ async def sync_mo_user_to_fk_org(
                     person_uuid=uuid,
                     it=it,
                     current_fk_uuids=set(fk_org_uuids),  # type: ignore[arg-type]
-                    user_key_it_system_names=settings.user_key_it_system_names,
+                    it_system_user_keys=settings.it_system_user_keys,
                 )
                 if past_fk_org_uuid:
                     logger.info("Reusing past UUID.", chosen_uuid=past_fk_org_uuid)

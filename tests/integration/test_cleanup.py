@@ -20,12 +20,10 @@ from os2sync_export.os2sync import OS2SyncClient
 async def test_cleanup_stale_users(
     test_client: AsyncClient,
     graphql_client: GraphQLClient,
-    mock_settings,
     create_person,
     create_engagements,
     create_AD_itsystem,
     create_FK_itsystem,
-    set_settings,
     dry_run,
 ) -> None:
     # Arrange

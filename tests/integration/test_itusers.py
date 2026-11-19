@@ -67,7 +67,7 @@ async def test_event(
     fk_accounts, ad_accounts = await read_fk_users_from_person(
         graphql_client=graphql_client,
         uuid=person_uuid,
-        it_user_keys=["Active Directory"],
+        it_user_keys=["AD"],
     )
     assert len(ad_accounts) == 1
     assert fk_accounts == []
@@ -79,7 +79,7 @@ async def test_event(
             fk_accounts, ad_accounts = await read_fk_users_from_person(
                 graphql_client=graphql_client,
                 uuid=person_uuid,
-                it_user_keys=["Active Directory"],
+                it_user_keys=["AD"],
             )
             fk_account = one(fk_accounts)
             assert UUID(fk_account.user_key) == adguid
@@ -301,7 +301,7 @@ async def test_account_with_no_relevant_engagement(
     fk_accounts, it_accounts = await read_fk_users_from_person(
         graphql_client=graphql_client,
         uuid=person_uuid,
-        it_user_keys=["Active Directory"],
+        it_user_keys=["AD"],
     )
     assert len(it_accounts) == 1
     # Even though the engagement is no longer relevant we keep the fk-org account
@@ -401,7 +401,7 @@ async def test_startdate(
     fk_accounts, it_accounts = await read_fk_users_from_person(
         graphql_client=graphql_client,
         uuid=person_uuid,
-        it_user_keys=["Active Directory"],
+        it_user_keys=["AD"],
     )
     assert len(it_accounts) == 1
     # Even though the engagement is no longer relevant we keep the fk-org account
@@ -489,7 +489,7 @@ async def test_random_uuid(
     fk_accounts, it_accounts = await read_fk_users_from_person(
         graphql_client=graphql_client,
         uuid=person_uuid,
-        it_user_keys=["Active Directory"],
+        it_user_keys=["AD"],
     )
     assert len(it_accounts) == 1
     assert one(fk_accounts).external_id == str(expected_uuid)
@@ -722,7 +722,7 @@ async def test_future_engagement(
     fk_accounts, it_accounts = await read_fk_users_from_person(
         graphql_client=graphql_client,
         uuid=person_uuid,
-        it_user_keys=["Active Directory"],
+        it_user_keys=["AD"],
     )
     assert len(it_accounts) == 1
     # Even though the engagement is no longer relevant we keep the fk-org account
