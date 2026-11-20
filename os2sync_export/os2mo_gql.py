@@ -634,13 +634,13 @@ async def find_fk_itsystem_uuid(graphql_client: GraphQLClient):
     return one(res.objects).uuid
 
 
-async def find_active_accounts(
-    graphql_client: GraphQLClient,
-) -> set[UUID]:
+async def find_active_accounts(graphql_client: GraphQLClient, limit: int) -> set[UUID]:
     active_accounts: set[UUID] = set()
     cursor: str | None = None
     while True:
-        fk_accounts_in_MO = await graphql_client.find_all_f_k_itusers(cursor=cursor)
+        fk_accounts_in_MO = await graphql_client.find_all_f_k_itusers(
+            cursor=cursor, limit=limit
+        )
         for account in fk_accounts_in_MO.objects:
             if account.current and account.current.external_id:
                 active_accounts.add(UUID(account.current.external_id))
