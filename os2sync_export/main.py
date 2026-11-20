@@ -91,12 +91,18 @@ async def cleanup_users(
     os2sync_client: OS2SyncClient_,
     settings: Settings_,
     dry_run: bool = False,
+    pagination_size: int = 1000,
 ) -> None:
     """Cleanup stale users from fk-org."""
     if not settings.new:
         raise NotImplementedError
     active_accounts = await find_active_accounts(
-        graphql_client=graphql_client,
+        graphql_client=graphql_client, limit=pagination_size
+    )
+    logger.info(
+        "Doing cleanup of stale fk-org users",
+        active_accounts=len(active_accounts),
+        dry_run=dry_run,
     )
     if not active_accounts:
         raise ValueError("No active accounts found! Stopping!")
